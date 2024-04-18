@@ -1,0 +1,158 @@
+App.js : 
+ 
+import React, { useState } from 'react'; 
+ 
+const ImageTable = ({ selectedImages }) => { 
+  return ( 
+    <div className="table-container"> 
+      <table className="styled-table"> 
+      <thead> 
+      <tr> 
+  <th style={{ border: '1px solid #3824ee', padding: '8px', textAlign: 'center', backgroundColor: 'lightblue' }}>Image</th> 
+  <th style={{ border: '1px solid #3824ee', padding: '8px', textAlign: 'center', backgroundColor: 'lightblue' }}>Name</th> 
+</tr> 
+ 
+      </thead> 
+      <tbody> 
+        {selectedImages.map((image, index) => ( 
+          <tr key={index}> 
+            <td> 
+              <img src={image.src} alt={image.alt} style={{ maxWidth: '100px', maxHeight: '100px' }} /> 
+            </td> 
+            <td>{image.alt}</td> 
+          </tr> 
+        ))} 
+      </tbody> 
+      </table> 
+    </div> 
+  ); 
+}; 
+ 
+const App = () => { 
+  const [selectedImages, setSelectedImages] = useState([ 
+     
+  ]); 
+ 
+  const handleFileUpload = (event) => { 
+    const files = event.target.files; 
+   
+    for (let i = 0; i < files.length; i++) { 
+      const reader = new FileReader(); 
+   
+      reader.onload = (e) => { 
+        const imageName = files[i].name; // Get the image name 
+        const newImage = { 
+          src: e.target.result, 
+          alt: imageName, // Use the image name as alt text 
+        }; 
+   
+        setSelectedImages([...selectedImages, newImage]); 
+      }; 
+   
+      reader.readAsDataURL(files[i]); 
+    } 
+  };  
+ 
+  return ( 
+    <div> 
+      <div> 
+      <h1 style={{ borderBottom: '2px solid blue', paddingTop: '20px', marginBottom: '100px' }}>           
+        Dynamic Image Selection - Table 
+      </h1> 
+      </div> 
+      <div className="upload-container"> 
+        <input type="file" onChange={handleFileUpload} multiple />       
+        <ImageTable selectedImages={selectedImages} /> 
+      </div> 
+      <div className="watermark">G. VIJAY KUMAR'S</div> 
+    </div> 
+  ); 
+}; 
+ 
+export default App; 
+ 
+App.css : 
+ 
+body {   
+  margin: 0; 
+  background-color: #fbfcb6; 
+} 
+ 
+code { 
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', 
+    monospace; 
+} 
+ 
+h1 { 
+  text-align: center; 
+  margin-top: 10px; 
+  width: 100%; 
+  margin: 0;   
+} 
+ 
+.app-container { 
+  text-align: center; 
+} 
+ 
+.table-container { 
+  margin-top: 20px; 
+  max-height: 400px; /* Set a maximum height for the table container */ 
+  overflow-y: auto; /* Add vertical scrollbars if the content overflows */ 
+} 
+ 
+.upload-container { 
+  margin-top: 10px; 
+  text-align: center; /* Center the content horizontally */ 
+} 
+ 
+.upload-container input { 
+  display: inline-block; /* Ensure the input is displayed as a block */ 
+} 
+.styled-table { 
+  width: 30%; 
+  border-collapse: collapse; 
+  margin: 0 auto; 
+} 
+ 
+.styled-table th { 
+  border: 1px solid #3824ee; 
+  padding: 8px; 
+  text-align: center; /* Center the text in table cells */ 
+} 
+ 
+.styled-table td { 
+  border: 1px solid #3824ee; 
+  padding: 8px; 
+  text-align: center;   
+} 
+ 
+.image-cell img { 
+  width: 100%; 
+  height: 100%; 
+  max-width: 150px; 
+  max-height: 150px; 
+  object-fit: cover; 
+} 
+ 
+.watermark { 
+  position: absolute; 
+  bottom: 10px; 
+  right: 10px; 
+  color: rgba(0, 0, 0, 0.5); /* Adjust the color and opacity of the watermark */ 
+  font-size: 16px; 
+} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

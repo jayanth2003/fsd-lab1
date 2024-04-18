@@ -1,0 +1,99 @@
+App.js : 
+ 
+import React from 'react'; 
+import TableView from './TableView'; 
+import './index.css'; 
+ 
+const App = () => { 
+  const data = [ 
+    {ID : 1 , Name : 'Vijay' ,   Age : 20}, 
+    {ID : 2 , Name : 'Ram'   ,   Age : 21}, 
+    {ID : 3 , Name : 'Jaanu' ,   Age : 20}, 
+    {ID : 4 , Name : 'Shiva' ,   Age : 21}, 
+    {ID : 5 , Name : 'Nani'  ,   Age : 21}, 
+ 
+  ]; 
+ 
+  return ( 
+    <div> 
+      <h1 style = {{ textAlign : 'center' , borderBottom : '2px solid blue' , paddingTop : '20px',marginBottom : '100px'}}> 
+        Array of Objects - TableView 
+      </h1> 
+      <TableView data= {data} /> 
+    </div> 
+  ); 
+}; 
+ 
+export default App; 
+ 
+TableView.js : 
+ 
+import React,{Component} from 'react'; 
+ 
+class TableView extends Component { 
+    renderTableHeader() { 
+        const header = Object.keys(this.props.data[0]); 
+        return header.map((key) => <th key={key}>{key}</th>); 
+}   
+ 
+renderTableData() { 
+    return this.props.data.map((item,index) => { 
+        const rowStyle = { 
+            backgroundColor : index % 2 === 0 ? '#f2f2f2' : 'white', // Alternating background colors 
+        }; 
+ 
+        return ( 
+            <tr key ={index} style = {rowStyle}> 
+                {Object.values(item).map((value,index) => ( 
+                    <td key={index} style={{ border:'1px solid black',textAlign:'center'}}> 
+                        {value} 
+                    </td> 
+                ))} 
+            </tr> 
+        ); 
+    }); 
+}; 
+ 
+    render() { 
+        const tableStyle = { 
+            borderCollapse : 'collaspe', 
+            width : '70%', 
+            top : 30, 
+            margin : '20px auto', 
+            border : '1px solid blue', 
+        }; 
+        return ( 
+            <div> 
+                <table style={tableStyle}> 
+                    <thead style={{ backgroundColor : '#3498db'}}> 
+                        <tr>{this.renderTableHeader()}</tr> 
+                    </thead> 
+                    <tbody>{this.renderTableData()}</tbody> 
+                </table> 
+            </div> 
+        ) 
+    } 
+} 
+ 
+export default TableView; 
+ 
+index.css : 
+ 
+body { 
+  margin: 0; 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 
+    sans-serif; 
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale; 
+  background-color: rgb(217,230,173); 
+} 
+ 
+code { 
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', 
+    monospace; 
+} 
+ 
+ 
+ 
+ 

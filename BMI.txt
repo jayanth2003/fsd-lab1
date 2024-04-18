@@ -1,0 +1,244 @@
+App.js : 
+ 
+import React, { useState } from 'react'; 
+import './App.css'; 
+ 
+function App() { 
+  const [height, setHeight] = useState(''); 
+  const [weight, setWeight] = useState(''); 
+  const [bmi, setBMI] = useState(null); 
+ 
+  const calculateBMI = () => { 
+    if (height && weight) { 
+      const heightInMeters = height / 100; 
+      const bmiValue = (weight / (heightInMeters * heightInMeters)).toFixed(2); 
+      setBMI(bmiValue); 
+    } 
+  }; 
+ 
+  const getBMICategory = () => { 
+    if (bmi < 16) return 'Severe Thinness'; 
+    if (bmi >= 16 && bmi < 17) return 'Moderate Thinness'; 
+    if (bmi >= 17 && bmi < 18.5) return 'Mild Thinness'; 
+    if (bmi >= 18.5 && bmi < 25) return 'Normal'; 
+    if (bmi >= 25 && bmi < 30) return 'Overweight'; 
+    if (bmi >= 30 && bmi < 35) return 'Obese Class I'; 
+    if (bmi >= 35 && bmi < 40) return 'Obese Class II'; 
+    if (bmi >= 40) return 'Obese Class III'; 
+    return ''; 
+  }; 
+ 
+  const getMeterColor = () => { 
+    if (bmi < 16) return '#3498db'; // Blue for severe thinness 
+    if (bmi < 17) return '#9b59b6'; // Purple for moderate thinness 
+    if (bmi < 18.5) return '#2ecc71'; // Green for mild thinness 
+    if (bmi < 25) return '#f1c40f'; // Yellow for normal weight 
+    if (bmi < 30) return '#e67e22'; // Orange for overweight 
+    if (bmi < 35) return '#e74c3c'; // Red for obese class I 
+    if (bmi < 40) return '#c0392b'; // Dark red for obese class II 
+    return '#96281b'; 
+  }; 
+ 
+  return ( 
+    <div className="App"> 
+      <h1 style={{ borderBottom: '2px solid #FFA500', paddingBottom: '10px', marginBottom: '20px', color: 'green' }}> 
+        BMI Calculator 
+      </h1> 
+      <div className="container"> 
+        <div className="form-container"> 
+          <label> 
+            Height (cm): 
+            <input type="number" value={height} onChange={(e) => setHeight(e.target.value)} /> 
+          </label> 
+          <label> 
+            weight (kg): 
+            <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} /> 
+          </label> 
+          <button 
+            onClick={calculateBMI} 
+            onMouseOver={(e) => (e.target.style.background = 'orange')} 
+            onMouseOut={(e) => (e.target.style.background = 'darkblue')}> 
+            check BMI 
+          </button> 
+          {bmi !== null && ( 
+            <div className="result-container"> 
+              <div className="meter-container"> 
+                <div className="meter" style={{ width: `${bmi * 3}px`, backgroundColor: getMeterColor() }}></div> 
+              </div> 
+              <p> 
+                <strong>Your BMI is : {bmi}</strong> 
+              </p> 
+              <p> 
+                <strong>Category: {getBMICategory()}</strong> 
+              </p> 
+            </div> 
+          )} 
+        </div> 
+        <div className="table-container"> 
+          <h4>BMI Categories</h4> 
+          <table className="category-table"> 
+            <thead> 
+              <tr> 
+                <th>Category</th> 
+                <th>BMI Range (kg/m^2)</th> 
+              </tr> 
+            </thead> 
+            <tbody> 
+              <tr> 
+                <td>Severe Thinness</td> 
+                <td>&lt;16</td> 
+              </tr> 
+              <tr> 
+                <td>Moderate Thinness</td> 
+                <td>16-17</td> 
+              </tr> 
+              <tr> 
+                <td>Mild Thinness</td> 
+                <td>17-18.5</td> 
+              </tr> 
+              <tr> 
+                <td>Normal</td> 
+                <td>18.5-25</td> 
+              </tr> 
+              <tr> 
+                <td>Overweight</td> 
+                <td>25-30</td> 
+              </tr> 
+              <tr> 
+                <td>Obese Class I</td> 
+                <td>30-35</td> 
+              </tr> 
+              <tr> 
+                <td>Obese class II</td> 
+                <td>35-40</td> 
+              </tr> 
+              <tr> 
+                <td>Obese Class III</td> 
+                <td>&gt; 40</td> 
+              </tr> 
+            </tbody> 
+          </table> 
+        </div> 
+      </div> 
+      <div className="watermark"> 
+        <p>G VIJAY KUMAR</p> 
+      </div> 
+    </div> 
+  ); 
+} 
+ 
+export default App; 
+ 
+App.css : 
+ 
+.App { 
+  text-align: center; 
+  margin-top: 50px; 
+} 
+body { 
+  margin: 0; 
+  padding: 0; 
+  font-family: "Arial",sans-serif; 
+  background-color: #f2f2f2; 
+} 
+h1 { 
+  color: #333; 
+} 
+.category-container{ 
+  margin-bottom: 20px; 
+} 
+.category-table { 
+  border-collapse: collapse; 
+  width: 50%; 
+  margin: 0 auto; 
+} 
+.category-table th { 
+  border: 1px solid #ddd; 
+  padding: 5px; 
+  text-align: center; 
+  font-size: 0.75em; 
+  color: #333; 
+} 
+.category-table td { 
+  border: 1px solid #ddd; 
+  padding: 5px; 
+  text-align: left; 
+  font-size: 0.75em; 
+  color: #333; 
+} 
+.container { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+} 
+.form-container { 
+  margin-top: 20px; 
+} 
+.table-container { 
+  width: 50%; 
+  margin-top: 5px; 
+} 
+label { 
+  margin: 10px; 
+  font-size: 1em; 
+  color: #333; 
+} 
+input { 
+  padding: 10px; 
+  font-size: 0.9em; 
+  border: 1px solid #ddd; 
+  border-radius: 5px; 
+} 
+button { 
+  margin-top: 15px; 
+  padding: 12px 24px; 
+  font-size: 0.75em; 
+  cursor: pointer; 
+  background-color: #0e0789; 
+  color: #fff; 
+  border: none; 
+  border-radius: 5px; 
+} 
+.result-container { 
+  margin-top: 20px; 
+  padding: 20px; 
+  border: 1px solid #ccc; 
+  border-radius: 10px; 
+  background-color: #f4e433; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+} 
+.meter-container { 
+  width: 300px; 
+  height: 20px; 
+  background-color: #ecf0f1; 
+ 
+  border-radius: 10px; 
+  margin: 10px auto; 
+  overflow: hidden; 
+} 
+.meter { 
+  height: 100%; 
+  border-radius: 10px; 
+  transition: width 0.5s ease; 
+} 
+.result-container p { 
+  margin: 10px 0; 
+  font-size: 1em; 
+  color: #333; 
+} 
+.watermark { 
+  position: fixed; 
+  bottom: 10px; 
+  right: 10px; 
+  color: rgba(0, 0, 0, 0.4); 
+  font-size: 0.8em; 
+} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

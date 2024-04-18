@@ -1,0 +1,340 @@
+App.js : 
+ 
+import React from "react"; 
+import "./style.css"; 
+import Clock from "./clock"; 
+ 
+class DigitalClock extends React.Component { 
+  constructor(props) { 
+    super(props); 
+    this.state = { 
+      time: new Date() 
+    }; 
+  } 
+ 
+  componentDidMount() { 
+    this.timerId = setInterval(() => { 
+      this.setState({ 
+        time: new Date() 
+      }); 
+    }, 1000); 
+  } 
+ 
+  componentWillUnmount() { 
+    clearInterval(this.timerId); 
+  } 
+ 
+  render() { 
+    const { time } = this.state; 
+    const hours = time.getHours().toString().padStart(2, "0"); 
+    const minutes = time.getMinutes().toString().padStart(2, "0"); 
+    const seconds = time.getSeconds().toString().padStart(2, "0"); 
+    const ampm = hours >= 12 ? 'PM' : 'AM'; 
+    const displayHours = (hours % 12 || 12).toString().padStart(2, '0'); 
+    const options = { day: 'numeric', month: 'short', year: 'numeric' }; 
+    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(time); 
+ 
+    return ( 
+      <div className="digital-clock"> 
+        <h2> 
+          {`${displayHours}:${minutes}:${seconds}`} 
+          <sup style={{ fontSize: '0.4em', verticalAlign: 'top' }}>{ampm}</sup> 
+        </h2> 
+        <div className="date-container" style={{ textAlign: 'center' }}> 
+          <b><p style={{ fontSize: '0.9em', margin: '0' }}>{formattedDate}</p></b> 
+        </div> 
+      </div> 
+    ); 
+  } 
+} 
+ 
+function App() { 
+  return ( 
+    <div> 
+      <h1 style={{ textAlign: 'center', borderBottom: '2px solid orange', paddingTop: '20px', color: 'blue' }}> 
+        Analog - Digital Clock 
+      </h1> 
+      <div className="clocks-container"> 
+        <Clock /> 
+ 
+        <DigitalClock />   
+      </div> 
+      <div className="watermark" style={{color:"blue"}}>GOLI VIJAY KUMAR</div> 
+    </div> 
+  ); 
+} 
+ 
+export default App; 
+ 
+clock.js : 
+ 
+import React, { Component } from "react"; 
+ 
+export default class Clock extends Component { 
+  constructor(props) { 
+    super(props); 
+    this.state = { 
+      time: new Date() 
+    }; 
+  } 
+ 
+  componentDidMount() { 
+    this.timerId = setInterval(() => { 
+      this.setState({ 
+        time: new Date() 
+      }); 
+    }, 1000); 
+  } 
+ 
+  componentWillUnmount() { 
+    clearInterval(this.timerId); 
+  } 
+ 
+  render() {     
+    return ( 
+      <div className="clock"> 
+        <div className="analog-clock"> 
+          <div 
+            className="hour_hand" 
+            style={{ 
+              transform: `rotateZ(${this.state.time.getHours() * 30}deg)` 
+            }} 
+          /> 
+          <div 
+            className="min_hand" 
+            style={{ 
+              transform: `rotateZ(${this.state.time.getMinutes() * 6}deg)` 
+            }} 
+          /> 
+          <div 
+            className="sec_hand" 
+            style={{ 
+              transform: `rotateZ(${this.state.time.getSeconds() * 6}deg)` 
+            }} 
+          /> 
+          <span className="twelve">12</span> 
+          <span className="one">1</span> 
+          <span className="two">2</span> 
+          <span className="three">3</span> 
+          <span className="four">4</span> 
+          <span className="five">5</span> 
+          <span className="six">6</span> 
+          <span className="seven">7</span> 
+          <span className="eight">8</span> 
+          <span className="nine">9</span> 
+          <span className="ten">10</span> 
+          <span className="eleven">11</span> 
+        </div>         
+      </div>       
+    ); 
+  } 
+} 
+ 
+ 
+style.css : 
+ 
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap"); 
+ 
+body { 
+  margin: 0; /* Remove default body margin */ 
+} 
+ 
+.App { 
+  font-family: sans-serif; 
+  position: relative;  
+} 
+ 
+.watermark { 
+  position: absolute; 
+  bottom: 10px; 
+  right: 10px; 
+  color: rgba(0, 0, 0, 0.5); /* Adjust the color and opacity of the watermark */ 
+  font-size: 16px; 
+} 
+ 
+.clocks-container { 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+} 
+ 
+.clock, .digital-clock { 
+  width: 300px; 
+  height: 300px; 
+   
+  border-radius: 50%; 
+  position: relative; 
+  box-shadow: 0 2px 30px rgba(238, 5, 5, 0.2); 
+  font-size: 24px; 
+  color: #000000; 
+  text-align: center; 
+  margin: 50px; /* Add some margin for spacing between clocks */ 
+  background-color:skyblue; 
+} 
+ 
+.clock::after { 
+  background: #aaa; 
+  content: ""; 
+  width: 12px; 
+  height: 12px; 
+  border-radius: 50%; 
+  position: absolute; 
+  z-index: 2; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  border: 2px solid #fff; 
+} 
+ 
+.digital-clock h2 { 
+  font-family: "Perfograma","Source Sans Pro", sans-serif; 
+  font-weight: 700; 
+  position: absolute; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  margin: 0;  
+} 
+ 
+ 
+.hour_hand { 
+  position: absolute; 
+  width: 6px; 
+  height: 60px; 
+  background: #222; 
+  top: 30%; 
+  left: 49%; 
+  transform-origin: bottom; 
+} 
+ 
+.min_hand { 
+  position: absolute; 
+  width: 4px; 
+  height: 80px; 
+  background: #444; 
+  top: 22.5%; 
+  left: 49%; 
+  transform-origin: bottom; 
+} 
+ 
+.sec_hand { 
+  position: absolute; 
+  width: 2px; 
+  height: 118px; 
+  background: red; 
+  top: 10.5%; 
+  left: 50%; 
+  transform-origin: bottom; 
+} 
+ 
+.clock span { 
+  position: absolute; 
+  font-family: "Source Sans Pro", sans-serif; 
+  font-weight: 700; 
+} 
+ 
+ 
+.twelve { 
+  top: 10px; 
+  left: 46%; 
+} 
+ 
+.one { 
+ 
+  top: 10%; 
+  right: 26%; 
+} 
+ 
+.eleven { 
+  top: 10%; 
+  left: 26%; 
+} 
+ 
+.two { 
+  top: 25%; 
+  right: 10%; 
+} 
+ 
+.three { 
+  right: 10px; 
+  top: 46%; 
+} 
+ 
+.four { 
+  right: 30px; 
+  top: 67%; 
+} 
+ 
+.five { 
+  right: 78px; 
+  top: 80%; 
+} 
+ 
+.six { 
+  bottom: 10px; 
+  left: 50%; 
+} 
+ 
+.seven { 
+  left: 80px; 
+  top: 82%; 
+} 
+ 
+.eight { 
+  left: 30px; 
+  top: 67%; 
+} 
+ 
+.nine { 
+  left: 10px; 
+  top: 46%; 
+} 
+ 
+ 
+ 
+ 
+.clock__text-ampm { 
+  font-size: var(--tiny-font-size); 
+  color: var(--title-color); 
+  font-weight: var(--font-medium); 
+  margin-left: var(--mb-0-25); 
+} 
+ 
+.date-container { 
+  position: absolute; 
+  bottom: 35%; /* Adjust the position of the date container */ 
+ 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  margin: 0; 
+  font-size: 16px; 
+  color: #2b08f7; 
+} 
+ 
+.clock__date { 
+  text-align: center; 
+  font-size: var(--small-font-size); 
+  font-weight: var(--font-medium); 
+} 
+ 
+.ten { 
+  top: 25%; 
+  left: 10%; 
+} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
